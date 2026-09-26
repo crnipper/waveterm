@@ -478,8 +478,17 @@ func getSystemSummary(ctx context.Context) string {
 
 // job socket path on remote machine
 func GetRemoteJobSocketPath(jobId string) string {
-	socketDir := filepath.Join("/tmp", fmt.Sprintf("waveterm-%d", os.Getuid()))
-	return filepath.Join(socketDir, fmt.Sprintf("%s.sock", jobId))
+	return filepath.Join(GetRemoteJobSocketDir(), fmt.Sprintf("%s.sock", jobId))
+}
+
+// job socket dir on remote machine.
+// WAVETERM_JOBSOCKETDIR overrides the default (used by tests/repro harnesses so they
+// never share /tmp/waveterm-<uid> with a live install)
+func GetRemoteJobSocketDir() string {
+	if override := os.Getenv("WAVETERM_JOBSOCKETDIR"); override != "" {
+		return override
+	}
+	return filepath.Join("/tmp", fmt.Sprintf("waveterm-%d", os.Getuid()))
 }
 
 // job file path on remote machine
