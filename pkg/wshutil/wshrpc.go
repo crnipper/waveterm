@@ -772,7 +772,13 @@ func (w *WshRpc) SendComplexRequest(command string, data any, opts *wshrpc.RpcOp
 		timeoutMs = DefaultTimeoutMs
 	}
 	defer func() {
-		panichandler.PanicHandler("SendComplexRequest", recover())
+		// e.g. "send on closed channel" when the server shuts down between the IsServerDone
+		// check and the send below. Must surface as an error: returning (nil, nil) makes
+		// callers such as SendCommand dereference a nil handler and crash the process.
+		if panicErr := panichandler.PanicHandler("SendComplexRequest", recover()); panicErr != nil {
+			rtnHandler = nil
+			rtnErr = panicErr
+		}
 	}()
 	if command == "" {
 		return nil, fmt.Errorf("command cannot be empty")
@@ -798,7 +804,16 @@ func (w *WshRpc) SendComplexRequest(command string, data any, opts *wshrpc.RpcOp
 	if err != nil {
 		return nil, err
 	}
-	handler.respCh = w.registerRpc(handler, command, opts.Route, handler.reqId)
+	if handler.reqId != "" {
+		// NoResponse requests have no reqId and nothing to route back, so they must not be
+		// registered: they would all share RpcMap[""], and when one of them finishes its
+		// timeout goroutine makes runServer unregisterRpc(""), cancelling the context of
+		// whichever NoResponse request is registered under "" at that moment. If that
+		// request is waiting for room in OutputCh it fails at once with "timeout sending
+		// request" (dropping e.g. a stream data packet) although it waited far less than
+		// the timeout.
+		handler.respCh = w.registerRpc(handler, command, opts.Route, handler.reqId)
+	}
 	select {
 	case w.OutputCh <- barr:
 		return handler, nil

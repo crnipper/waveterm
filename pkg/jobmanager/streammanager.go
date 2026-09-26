@@ -9,6 +9,7 @@ import (
 	"io"
 	"log"
 	"sync"
+	"time"
 
 	"github.com/wavetermdev/waveterm/pkg/wshrpc"
 )
@@ -18,11 +19,27 @@ const (
 	CirBufSize    = 2 * 1024 * 1024 // 2 MB max buffer size
 	DisconnReadSz = 4 * 1024        // 4 KB read chunks when disconnected
 	MaxPacketSize = 4 * 1024        // 4 KB max data per packet
+
+	// StallTimeout bounds how long the PTY reader may be blocked by flow control
+	// without any ACK progress from the connected client. After that the client is
+	// considered dead/wedged: it is detached (the stream drops to disconnected mode,
+	// which keeps draining the PTY into the circular buffer) so the hosted program
+	// never blocks on its tty because of a stalled client.
+	DefaultStallTimeout = 10 * time.Second
+	stallCheckInterval  = 500 * time.Millisecond
 )
 
 type DataSender interface {
-	SendData(dataPk wshrpc.CommandStreamData)
+	// SendData must return an error if the packet could not be queued for delivery.
+	// A failed packet is never retransmitted, so any error detaches the client.
+	SendData(dataPk wshrpc.CommandStreamData) error
 }
+
+// ClientBrokenHandler is called (in its own goroutine, without StreamManager locks held)
+// after the StreamManager detached a client because it stalled or a send failed.
+// The job manager uses it to close the client's connection so the main server
+// notices (route down) and reconnects via PrepareConnect/StartStream.
+type ClientBrokenHandler func(sender DataSender, reason string)
 
 type streamTerminalEvent struct {
 	isEof bool
@@ -60,6 +77,13 @@ type StreamManager struct {
 	// terminal state - once true, stream is complete
 	terminalEventAcked bool
 	closed             bool
+
+	// stall detection: time of the last sign of life from the connected client
+	// (connect, ACK progress, window growth)
+	lastProgress   time.Time
+	stallTimeout   time.Duration
+	onClientBroken ClientBrokenHandler
+	brokenDetaches int
 }
 
 func MakeStreamManager() *StreamManager {
@@ -68,14 +92,37 @@ func MakeStreamManager() *StreamManager {
 
 func MakeStreamManagerWithSizes(cwndSize, cirbufSize int) *StreamManager {
 	sm := &StreamManager{
-		buf:      MakeCirBuf(cirbufSize, true),
-		eofPos:   -1,
-		cwndSize: cwndSize,
-		rwndSize: cwndSize,
+		buf:          MakeCirBuf(cirbufSize, true),
+		eofPos:       -1,
+		cwndSize:     cwndSize,
+		rwndSize:     cwndSize,
+		stallTimeout: DefaultStallTimeout,
 	}
 	sm.drainCond = sync.NewCond(&sm.lock)
 	go sm.senderLoop()
 	return sm
+}
+
+// SetStallTimeout changes how long flow control may block the reader without ACK
+// progress before the client is detached. <= 0 disables stall detection.
+func (sm *StreamManager) SetStallTimeout(d time.Duration) {
+	sm.lock.Lock()
+	defer sm.lock.Unlock()
+	sm.stallTimeout = d
+}
+
+// SetClientBrokenHandler registers the callback fired after a stalled/failed client is detached.
+func (sm *StreamManager) SetClientBrokenHandler(fn ClientBrokenHandler) {
+	sm.lock.Lock()
+	defer sm.lock.Unlock()
+	sm.onClientBroken = fn
+}
+
+// BrokenDetachCount returns how many times a client was detached for stalling or send failure.
+func (sm *StreamManager) BrokenDetachCount() int {
+	sm.lock.Lock()
+	defer sm.lock.Unlock()
+	return sm.brokenDetaches
 }
 
 // AttachReader starts reading from the given reader
@@ -130,6 +177,7 @@ func (sm *StreamManager) ClientConnected(streamId string, dataSender DataSender,
 	sm.connected = true
 	sm.rwndSize = rwndSize
 	sm.sentNotAcked = 0
+	sm.lastProgress = time.Now()
 	effectiveWindow := sm.cwndSize
 	if sm.rwndSize < effectiveWindow {
 		effectiveWindow = sm.rwndSize
@@ -170,7 +218,10 @@ func (sm *StreamManager) GetStreamDoneInfo() (done bool, streamError string) {
 func (sm *StreamManager) ClientDisconnected() {
 	sm.lock.Lock()
 	defer sm.lock.Unlock()
+	sm.clientDisconnected_withlock()
+}
 
+func (sm *StreamManager) clientDisconnected_withlock() {
 	if !sm.connected {
 		return
 	}
@@ -185,6 +236,47 @@ func (sm *StreamManager) ClientDisconnected() {
 	}
 	sm.buf.SetEffectiveWindow(false, CirBufSize)
 	sm.drainCond.Signal()
+}
+
+// detachBrokenClient drops a client that stalled or whose send failed, but only if
+// it is still the connected client (a new client may have connected in the meantime).
+// The stream falls back to disconnected mode: the PTY keeps being drained into the
+// circular buffer, and a reconnecting client resumes from its last acked seq
+// (or sees a gap if more than CirBufSize was produced meanwhile).
+func (sm *StreamManager) detachBrokenClient(sender DataSender, reason string) {
+	sm.lock.Lock()
+	if !sm.connected || sm.dataSender != sender {
+		sm.lock.Unlock()
+		return
+	}
+	streamId := sm.streamId
+	sm.clientDisconnected_withlock()
+	sm.brokenDetaches++
+	handler := sm.onClientBroken
+	sm.lock.Unlock()
+	log.Printf("streammanager: detaching client stream=%s: %s (pty keeps draining into %d byte buffer)\n", streamId, reason, CirBufSize)
+	if handler != nil {
+		go handler(sender, reason)
+	}
+}
+
+// checkStalled is called while the reader is blocked by flow control.
+func (sm *StreamManager) checkStalled() {
+	sm.lock.Lock()
+	if !sm.connected || sm.stallTimeout <= 0 {
+		sm.lock.Unlock()
+		return
+	}
+	idle := time.Since(sm.lastProgress)
+	if idle < sm.stallTimeout {
+		sm.lock.Unlock()
+		return
+	}
+	sender := sm.dataSender
+	unacked := sm.sentNotAcked
+	rwnd := sm.rwndSize
+	sm.lock.Unlock()
+	sm.detachBrokenClient(sender, fmt.Sprintf("no ACK progress for %v while output is blocked (unacked=%d rwnd=%d)", idle.Round(time.Millisecond), unacked, rwnd))
 }
 
 // RecvAck processes an ACK from the client
@@ -243,6 +335,7 @@ func (sm *StreamManager) RecvAck(ackPk wshrpc.CommandStreamAckData) {
 	sm.buf.SetEffectiveWindow(true, effectiveWindow)
 
 	if sm.rwndSize > prevRwnd || ackedBytes > 0 {
+		sm.lastProgress = time.Now()
 		sm.drainCond.Signal()
 	}
 }
@@ -258,6 +351,7 @@ func (sm *StreamManager) SetRwndSize(rwndSize int) error {
 		return fmt.Errorf("not connected")
 	}
 	sm.rwndSize = rwndSize
+	sm.lastProgress = time.Now()
 	effectiveWindow := sm.cwndSize
 	if sm.rwndSize < effectiveWindow {
 		effectiveWindow = sm.rwndSize
@@ -318,7 +412,30 @@ func (sm *StreamManager) handleReadData(data []byte) {
 		}
 
 		if waitCh != nil {
-			<-waitCh
+			sm.waitForSpace(waitCh)
+		}
+	}
+}
+
+// waitForSpace blocks until the circular buffer has room again. While blocked it
+// periodically checks for a stalled client; detaching it switches the buffer to
+// async mode, which wakes this waiter, so the PTY is never blocked for longer than
+// the stall timeout.
+func (sm *StreamManager) waitForSpace(waitCh <-chan struct{}) {
+	ticker := time.NewTicker(stallCheckInterval)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-waitCh:
+			return
+		case <-ticker.C:
+			sm.lock.Lock()
+			closed := sm.closed
+			sm.lock.Unlock()
+			if closed {
+				return
+			}
+			sm.checkStalled()
 		}
 	}
 }
@@ -352,7 +469,12 @@ func (sm *StreamManager) senderLoop() {
 		if pkt == nil {
 			continue
 		}
-		sender.SendData(*pkt)
+		if err := sender.SendData(*pkt); err != nil {
+			// the packet is lost and there is no retransmission: continuing would leave a
+			// permanent hole in the stream (the reader waits for the missing seq forever and
+			// the window never reopens), so detach the client and let it resync on reconnect
+			sm.detachBrokenClient(sender, fmt.Sprintf("send failed at seq=%d: %v", pkt.Seq, err))
+		}
 	}
 }
 

@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/wavetermdev/waveterm/pkg/baseds"
+	"github.com/wavetermdev/waveterm/pkg/util/logutil"
 	"github.com/wavetermdev/waveterm/pkg/wshrpc"
 )
 
@@ -46,10 +47,10 @@ func (sw *stallableWriter) setStalled(v bool) {
 // pushJobMessages feeds stream-data packets from a "job manager" link into the
 // router (what connserver's job-socket reader goroutine does) and reports how many
 // the router accepted before the reader goroutine would block.
-func pushJobMessages(t *testing.T, stallLog bool) int {
+func pushJobMessages(t *testing.T, stallLog bool, wrap func(io.Writer) io.Writer) int {
 	sw := &stallableWriter{w: os.Stderr}
 	sw.cond = sync.NewCond(&sw.lock)
-	log.SetOutput(sw)
+	log.SetOutput(wrap(sw))
 	// order matters: un-stall first, a blocked log.Printf holds the logger's output lock
 	defer func() {
 		sw.setStalled(false)
@@ -91,8 +92,9 @@ func pushJobMessages(t *testing.T, stallLog bool) int {
 // reading *every* job-manager socket once its log output (stderr -> sshd) blocks:
 // WshRouter.addToBacklog_withlock calls log.Printf while holding router.lock.
 func TestRouterStallsWhenLogOutputBlocks(t *testing.T) {
-	okCount := pushJobMessages(t, false)
-	stalledCount := pushJobMessages(t, true)
+	direct := func(w io.Writer) io.Writer { return w }
+	okCount := pushJobMessages(t, false, direct)
+	stalledCount := pushJobMessages(t, true, direct)
 	fmt.Printf("log output flowing: router accepted %d/2000 job messages (upstream stalled, backlog grows)\n", okCount)
 	fmt.Printf("log output blocked: router accepted %d/2000 job messages, then the job socket reader blocks\n", stalledCount)
 	if okCount != 2000 {
@@ -100,5 +102,16 @@ func TestRouterStallsWhenLogOutputBlocks(t *testing.T) {
 	}
 	if stalledCount >= 2000 {
 		t.Fatalf("expected router to wedge when log output blocks")
+	}
+}
+
+// TestRouterNonBlockingLogOutput checks the fix: with connserver's log output wrapped
+// in logutil.NonBlockingWriter the router keeps draining job sockets while stderr is stalled.
+func TestRouterNonBlockingLogOutput(t *testing.T) {
+	nonBlocking := func(w io.Writer) io.Writer { return logutil.NewNonBlockingWriter(w, 100) }
+	count := pushJobMessages(t, true, nonBlocking)
+	fmt.Printf("log output blocked, non-blocking log writer: router accepted %d/2000 job messages\n", count)
+	if count != 2000 {
+		t.Fatalf("router wedged with non-blocking log writer: accepted %d", count)
 	}
 }
