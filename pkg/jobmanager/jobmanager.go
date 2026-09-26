@@ -53,6 +53,7 @@ func SetupJobManager(clientId string, jobId string, publicKeyBytes []byte, jobAu
 	WshCmdJobManager.JwtPublicKey = publicKeyBytes
 	WshCmdJobManager.JobAuthToken = jobAuthToken
 	WshCmdJobManager.StreamManager = MakeStreamManager()
+	WshCmdJobManager.StreamManager.SetClientBrokenHandler(WshCmdJobManager.handleClientBroken)
 	WshCmdJobManager.InputQueue = utilds.MakeQuickReorderQueue[wshrpc.CommandJobInputData](JobInputQueueSize, JobInputQueueTimeout)
 	err := wavejwt.SetPublicKey(publicKeyBytes)
 	if err != nil {
@@ -181,6 +182,7 @@ func (jm *JobManager) connectToStreamHelper_withlock(mainServerConn *MainServerC
 		jm.connectedStreamClient = nil
 	}
 	dataSender := &routedDataSender{
+		msc:    mainServerConn,
 		wshRpc: mainServerConn.WshRpc,
 		route:  streamMeta.ReaderRouteId,
 	}
@@ -200,11 +202,29 @@ func (jm *JobManager) connectToStreamHelper_withlock(mainServerConn *MainServerC
 func (jm *JobManager) disconnectFromStreamHelper(mainServerConn *MainServerConn) {
 	jm.lock.Lock()
 	defer jm.lock.Unlock()
+	if jm.attachedClient == mainServerConn {
+		jm.attachedClient = nil
+	}
 	if jm.connectedStreamClient == nil || jm.connectedStreamClient != mainServerConn {
 		return
 	}
+	log.Printf("disconnectFromStreamHelper: client connection closed, stream detached\n")
 	jm.StreamManager.ClientDisconnected()
 	jm.connectedStreamClient = nil
+}
+
+// handleClientBroken is called by the StreamManager after it detached a client that
+// stalled (no ACK progress) or whose send failed. Close that client's connection:
+// connserver unregisters the job route, the main server gets a route-down event and
+// reconnects (PrepareConnect/StartStream) from its last seq. Until then the PTY is
+// drained into the circular buffer, so the hosted program keeps running.
+func (jm *JobManager) handleClientBroken(sender DataSender, reason string) {
+	rds, ok := sender.(*routedDataSender)
+	if !ok || rds.msc == nil {
+		return
+	}
+	log.Printf("handleClientBroken: closing client connection: %s\n", reason)
+	rds.msc.Close()
 }
 
 func (jm *JobManager) SetAttachedClient(msc *MainServerConn) {
@@ -421,7 +441,6 @@ func handleJobDomainSocketClient(conn net.Conn) {
 	rpcCtx := wshrpc.RpcContext{}
 	wshRpc := wshutil.MakeWshRpcWithChannels(inputCh, outputCh, rpcCtx, serverImpl, "job-domain")
 	serverImpl.WshRpc = wshRpc
-	defer WshCmdJobManager.disconnectFromStreamHelper(serverImpl)
 
 	go func() {
 		defer func() {
@@ -439,8 +458,11 @@ func handleJobDomainSocketClient(conn net.Conn) {
 			panichandler.PanicHandler("handleJobDomainSocketClient:AdaptStreamToMsgCh", recover())
 		}()
 		defer serverImpl.Close()
+		// runs when the connection is gone (EOF, error, or closed by us); previously this
+		// was deferred in the outer function, which returns immediately, so a closed
+		// connection never detached the stream and output kept "sending" into a dead rpc
+		// until the window filled and the PTY stopped being read
+		defer WshCmdJobManager.disconnectFromStreamHelper(serverImpl)
 		wshutil.AdaptStreamToMsgCh(conn, inputCh, nil)
 	}()
-
-	_ = wshRpc
 }

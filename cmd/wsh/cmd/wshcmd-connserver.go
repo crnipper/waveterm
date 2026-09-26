@@ -20,6 +20,7 @@ import (
 	"github.com/wavetermdev/waveterm/pkg/panichandler"
 	"github.com/wavetermdev/waveterm/pkg/remote/fileshare/wshfs"
 	"github.com/wavetermdev/waveterm/pkg/util/envutil"
+	"github.com/wavetermdev/waveterm/pkg/util/logutil"
 	"github.com/wavetermdev/waveterm/pkg/util/packetparser"
 	"github.com/wavetermdev/waveterm/pkg/util/sigutil"
 	"github.com/wavetermdev/waveterm/pkg/wavebase"
@@ -439,6 +440,8 @@ func askForJwtToken() (string, error) {
 func serverRun(cmd *cobra.Command, args []string) error {
 	connServerInitialEnv = envutil.PruneInitialEnv(envutil.SliceToMap(os.Environ()))
 
+	// never let a stalled stderr (pipe to sshd) block the router, see logutil.NonBlockingWriter
+	log.SetOutput(logutil.NewNonBlockingWriter(os.Stderr, 1000))
 	var logFile *os.File
 	if connServerDev {
 		var err error
@@ -451,7 +454,7 @@ func serverRun(cmd *cobra.Command, args []string) error {
 		} else {
 			defer logFile.Close()
 			logWriter := io.MultiWriter(os.Stderr, logFile)
-			log.SetOutput(logWriter)
+			log.SetOutput(logutil.NewNonBlockingWriter(logWriter, 1000))
 			log.SetFlags(log.LstdFlags | log.Lmicroseconds)
 			log.SetPrefix(fmt.Sprintf("[PID:%d] ", os.Getpid()))
 		}

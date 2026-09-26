@@ -19,10 +19,11 @@ type testWriter struct {
 	packets []wshrpc.CommandStreamData
 }
 
-func (tw *testWriter) SendData(pkt wshrpc.CommandStreamData) {
+func (tw *testWriter) SendData(pkt wshrpc.CommandStreamData) error {
 	tw.mu.Lock()
 	defer tw.mu.Unlock()
 	tw.packets = append(tw.packets, pkt)
+	return nil
 }
 
 func (tw *testWriter) GetPackets() []wshrpc.CommandStreamData {
@@ -345,4 +346,150 @@ func (sr *slowReader) Read(p []byte) (n int, err error) {
 	sr.pos += n
 
 	return n, nil
+}
+
+// blackholeSender accepts packets but the client never ACKs (half-open / wedged client)
+type blackholeSender struct {
+	mu    sync.Mutex
+	count int
+	fail  error
+}
+
+func (bs *blackholeSender) SendData(pkt wshrpc.CommandStreamData) error {
+	bs.mu.Lock()
+	defer bs.mu.Unlock()
+	bs.count++
+	return bs.fail
+}
+
+// writeWithDeadline writes total bytes to w in chunks and fails if any chunk blocks
+// longer than maxBlock (i.e. the "hosted program" is frozen on its tty).
+func writeWithDeadline(t *testing.T, w io.Writer, total int, maxBlock time.Duration) {
+	chunk := []byte(strings.Repeat("x", 1024))
+	for written := 0; written < total; written += len(chunk) {
+		done := make(chan struct{})
+		go func() {
+			w.Write(chunk)
+			close(done)
+		}()
+		select {
+		case <-done:
+		case <-time.After(maxBlock):
+			t.Fatalf("writer blocked for more than %v after %d bytes: hosted program would freeze", maxBlock, written)
+		}
+	}
+}
+
+func TestStalledClientIsDetachedAndReaderKeepsDraining(t *testing.T) {
+	sm := MakeStreamManager()
+	sm.SetStallTimeout(300 * time.Millisecond)
+	brokenCh := make(chan string, 4)
+	sm.SetClientBrokenHandler(func(sender DataSender, reason string) { brokenCh <- reason })
+	sender := &blackholeSender{}
+	if _, err := sm.ClientConnected("s1", sender, CwndSize, 0); err != nil {
+		t.Fatal(err)
+	}
+	pr, pw := io.Pipe()
+	sm.AttachReader(pr)
+	// 4 MB is far more than the 64 KB window and the 2 MB buffer
+	writeWithDeadline(t, pw, 4*1024*1024, 2*time.Second)
+	select {
+	case reason := <-brokenCh:
+		t.Logf("client detached: %s", reason)
+	case <-time.After(2 * time.Second):
+		t.Fatalf("broken-client handler not called")
+	}
+	if sm.BrokenDetachCount() != 1 {
+		t.Fatalf("expected 1 detach, got %d", sm.BrokenDetachCount())
+	}
+	// a reconnecting client resumes; the head of the stream was dropped (gap), the tail is kept
+	tw := &testWriter{}
+	startSeq, err := sm.ClientConnected("s2", tw, CwndSize, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if startSeq != int64(4*1024*1024-CirBufSize) {
+		t.Fatalf("expected resume at seq %d (last %d bytes kept), got %d", 4*1024*1024-CirBufSize, CirBufSize, startSeq)
+	}
+	pw.Close()
+	sm.Close()
+}
+
+func TestAckingClientKeepsBackpressure(t *testing.T) {
+	// a slow but alive client must keep lossless flow control (no detach)
+	sm := MakeStreamManager()
+	sm.SetStallTimeout(300 * time.Millisecond)
+	tw := &testWriter{}
+	if _, err := sm.ClientConnected("s1", tw, CwndSize, 0); err != nil {
+		t.Fatal(err)
+	}
+	pr, pw := io.Pipe()
+	sm.AttachReader(pr)
+	stop := make(chan struct{})
+	go func() {
+		// ack slowly: 16 KB every 100ms
+		var acked int64
+		for {
+			select {
+			case <-stop:
+				return
+			case <-time.After(100 * time.Millisecond):
+			}
+			var sent int64
+			for _, p := range tw.GetPackets() {
+				end := p.Seq + int64(len(decodeData(p.Data64)))
+				if end > sent {
+					sent = end
+				}
+			}
+			next := acked + 16*1024
+			if next > sent {
+				next = sent
+			}
+			if next > acked {
+				acked = next
+				sm.RecvAck(wshrpc.CommandStreamAckData{Id: "s1", Seq: acked, RWnd: CwndSize})
+			}
+		}
+	}()
+	go func() {
+		pw.Write([]byte(strings.Repeat("y", 512*1024)))
+	}()
+	time.Sleep(1500 * time.Millisecond)
+	close(stop)
+	if sm.BrokenDetachCount() != 0 {
+		t.Fatalf("slow but acking client was detached")
+	}
+	pw.Close()
+	sm.Close()
+}
+
+func TestSendErrorDetachesClient(t *testing.T) {
+	sm := MakeStreamManager()
+	brokenCh := make(chan string, 4)
+	sm.SetClientBrokenHandler(func(sender DataSender, reason string) { brokenCh <- reason })
+	sender := &blackholeSender{fail: io.ErrClosedPipe}
+	if _, err := sm.ClientConnected("s1", sender, CwndSize, 0); err != nil {
+		t.Fatal(err)
+	}
+	pr, pw := io.Pipe()
+	sm.AttachReader(pr)
+	writeWithDeadline(t, pw, 1024*1024, 2*time.Second)
+	select {
+	case reason := <-brokenCh:
+		t.Logf("client detached: %s", reason)
+	case <-time.After(2 * time.Second):
+		t.Fatalf("broken-client handler not called")
+	}
+	// nothing was acked, so a reconnect replays from 0 (no hole, no loss)
+	tw := &testWriter{}
+	startSeq, err := sm.ClientConnected("s2", tw, CwndSize, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if startSeq != 0 {
+		t.Fatalf("expected replay from 0, got %d", startSeq)
+	}
+	pw.Close()
+	sm.Close()
 }
