@@ -1,0 +1,51 @@
+[  0.01s] job manager pid=477763 jobid=5add9750-033e-48c4-88a4-f710c5b1a6bc log=/tmp/wds/final/runs/after-close/home/.waveterm/jobs/5add9750-033e-48c4-88a4-f710c5b1a6bc.log
+[  0.01s] probe started pid=477773 (node, writes ~48000 bytes/s to its tty in 120-byte lines)
+[  1.01s] normal    probe RUNNING hb_age=   62ms lines_written=   360 | client consumed=   43090 bytes, last_line=   359, line_gaps=0 | probe state=S wchan=ep_poll
+[  2.01s] normal    probe RUNNING hb_age=   59ms lines_written=   760 | client consumed=   91090 bytes, last_line=   759, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.01s] normal    probe RUNNING hb_age=   57ms lines_written=  1160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.01s] === FAULT: close ===
+[  4.01s] fault     probe RUNNING hb_age=   53ms lines_written=  1560 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  5.01s] fault     probe RUNNING hb_age=   50ms lines_written=  1960 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  6.01s] fault     probe RUNNING hb_age=   46ms lines_written=  2360 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  7.01s] fault     probe RUNNING hb_age=   41ms lines_written=  2760 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  8.01s] fault     probe RUNNING hb_age=   37ms lines_written=  3160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  9.02s] fault     probe RUNNING hb_age=   34ms lines_written=  3560 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 10.02s] fault     probe RUNNING hb_age=   29ms lines_written=  3960 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 11.02s] fault     probe RUNNING hb_age=   26ms lines_written=  4360 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 12.02s] fault     probe RUNNING hb_age=   23ms lines_written=  4760 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 13.02s] fault     probe RUNNING hb_age=   20ms lines_written=  5160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 14.02s] fault     probe RUNNING hb_age=   18ms lines_written=  5560 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 15.02s] fault     probe RUNNING hb_age=   14ms lines_written=  5960 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 16.02s] fault     probe RUNNING hb_age=   11ms lines_written=  6360 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 17.02s] fault     probe RUNNING hb_age=    8ms lines_written=  6760 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 18.02s] fault     probe RUNNING hb_age=    4ms lines_written=  7160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 19.02s] fault     probe RUNNING hb_age=   99ms lines_written=  7520 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 20.02s] fault     probe RUNNING hb_age=   96ms lines_written=  7920 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 21.02s] fault     probe RUNNING hb_age=   93ms lines_written=  8320 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 21.02s] --- job manager log (fault phase) ---
+    2026/09/26 01:20:02 job manager daemonized, logging to /tmp/wds/final/runs/after-close/home/.waveterm/jobs/5add9750-033e-48c4-88a4-f710c5b1a6bc.log
+    2026/09/26 01:20:02 job owner clientid: e370e278-708a-43c1-ba3f-3ad457cb6c47
+    2026/09/26 01:20:02 AuthenticateToJobManager: authentication successful for JobId=5add9750-033e-48c4-88a4-f710c5b1a6bc
+    2026/09/26 01:20:02 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:20:02 StartJobCommand: received command=/usr/bin/node args=[/tmp/wds/final/runs/after-close/probe.js /tmp/wds/final/runs/after-close/probe.hb 40 100 100]
+    2026/09/26 01:20:02 StartJob: creating job cmd for jobid=5add9750-033e-48c4-88a4-f710c5b1a6bc
+    2026/09/26 01:20:02 StartJob: job cmd created successfully
+    2026/09/26 01:20:02 StartJob: connected stream streamid=716304ea-a2a0-4a22-8848-a755cfd767c5 serverSeq=0
+    2026/09/26 01:20:02 StartJob: attaching pty reader to stream manager
+    2026/09/26 01:20:02 StartJob: pty reader attached successfully
+    2026/09/26 01:20:02 StartJob: job started successfully cmdPid=477773 cmdStartTs=1790385602150 jobManagerPid=477763 jobManagerStartTs=1790385602140
+    2026/09/26 01:20:05 disconnectFromStreamHelper: client connection closed, stream detached
+[ 21.02s] === REATTACH (new connection, PrepareConnect seq=139250) ===
+[ 22.02s] reattach  probe RUNNING hb_age=   94ms lines_written=  8720 | client consumed= 1054010 bytes, last_line=  8719, line_gaps=0 | probe state=S wchan=ep_poll
+[ 23.02s] reattach  probe RUNNING hb_age=   93ms lines_written=  9120 | client consumed= 1102410 bytes, last_line=  9119, line_gaps=0 | probe state=S wchan=ep_poll
+[ 24.02s] reattach  probe RUNNING hb_age=   89ms lines_written=  9520 | client consumed= 1150810 bytes, last_line=  9519, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.02s] reattach  probe RUNNING hb_age=   85ms lines_written=  9920 | client consumed= 1199210 bytes, last_line=  9919, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.03s] --- job manager log (reattach) ---
+    2026/09/26 01:20:02 StartJob: attaching pty reader to stream manager
+    2026/09/26 01:20:02 StartJob: pty reader attached successfully
+    2026/09/26 01:20:02 StartJob: job started successfully cmdPid=477773 cmdStartTs=1790385602150 jobManagerPid=477763 jobManagerStartTs=1790385602140
+    2026/09/26 01:20:05 disconnectFromStreamHelper: client connection closed, stream detached
+    2026/09/26 01:20:23 AuthenticateToJobManager: authentication successful for JobId=5add9750-033e-48c4-88a4-f710c5b1a6bc
+    2026/09/26 01:20:23 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:20:23 PrepareConnect: streamid=4e91b276-0b39-4548-abfb-2b4940644ce1 clientSeq=139250 serverSeq=139250 streamDone=false streamError="" hasExited=false
+    2026/09/26 01:20:23 StartStream: streamid=4e91b276-0b39-4548-abfb-2b4940644ce1 rwnd=65536 streaming started

@@ -1,0 +1,10 @@
+before  blackhole       frozen_samples=16/18  end_of_fault=probe FROZEN   after_reattach=probe RUNNING  joblog:
+before  stopread-drip   frozen_samples=15/18  end_of_fault=probe FROZEN   after_reattach=probe RUNNING  joblog: 12 no longer running; 3 SendData timeout sending request;
+before  hiccup-drip     frozen_samples=14/18  end_of_fault=probe FROZEN   after_reattach=probe RUNNING  joblog: 1 SendData timeout sending request;
+before  close           frozen_samples=16/18  end_of_fault=probe FROZEN   after_reattach=probe RUNNING  joblog: 27 no longer running;
+before  tmux-blackhole  frozen_samples= 0/18  end_of_fault=probe RUNNING  after_reattach=probe RUNNING  joblog:
+after   blackhole       frozen_samples= 8/18  end_of_fault=probe RUNNING  after_reattach=probe RUNNING  joblog: 1 client connection closed; 2 no ACK progress for;
+after   stopread-drip   frozen_samples= 2/18  end_of_fault=probe RUNNING  after_reattach=probe RUNNING  joblog: 1 client connection closed; 1 SendData timeout sending request; 2 send failed at;
+after   hiccup-drip     frozen_samples= 2/18  end_of_fault=probe RUNNING  after_reattach=probe RUNNING  joblog: 1 client connection closed; 1 SendData timeout sending request; 2 send failed at;
+after   close           frozen_samples= 0/18  end_of_fault=probe RUNNING  after_reattach=probe RUNNING  joblog: 1 client connection closed;
+after   tmux-blackhole  frozen_samples= 0/18  end_of_fault=probe RUNNING  after_reattach=probe RUNNING  joblog: 1 client connection closed; 2 no ACK progress for;

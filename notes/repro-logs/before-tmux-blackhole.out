@@ -1,0 +1,51 @@
+[  0.01s] job manager pid=477525 jobid=3ae9eed1-b179-4c11-8aac-c6ba1a860856 log=/tmp/wds/final/runs/before-tmux-blackhole/home/.waveterm/jobs/3ae9eed1-b179-4c11-8aac-c6ba1a860856.log
+[  0.13s] job pid=477535 is the tmux client; probe (tmux pane) pid=477540
+[  0.13s] probe started pid=477540 (node, writes ~48000 bytes/s to its tty in 120-byte lines)
+[  1.13s] normal    probe RUNNING hb_age=   47ms lines_written=   400 | client consumed=   50942 bytes, last_line=   399, line_gaps=7 | probe state=S wchan=ep_poll
+[  2.13s] normal    probe RUNNING hb_age=   42ms lines_written=   800 | client consumed=  100990 bytes, last_line=   799, line_gaps=12 | probe state=S wchan=ep_poll
+[  3.13s] normal    probe RUNNING hb_age=   41ms lines_written=  1200 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[  3.13s] === FAULT: blackhole ===
+[  4.14s] fault     probe RUNNING hb_age=   37ms lines_written=  1600 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[  5.14s] fault     probe RUNNING hb_age=   34ms lines_written=  2000 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[  6.14s] fault     probe RUNNING hb_age=   32ms lines_written=  2400 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[  7.14s] fault     probe RUNNING hb_age=   31ms lines_written=  2800 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[  8.14s] fault     probe RUNNING hb_age=   28ms lines_written=  3200 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[  9.14s] fault     probe RUNNING hb_age=   24ms lines_written=  3600 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 10.14s] fault     probe RUNNING hb_age=   25ms lines_written=  4000 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 11.14s] fault     probe RUNNING hb_age=   21ms lines_written=  4400 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 12.14s] fault     probe RUNNING hb_age=   18ms lines_written=  4800 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 13.14s] fault     probe RUNNING hb_age=   16ms lines_written=  5200 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 14.14s] fault     probe RUNNING hb_age=   15ms lines_written=  5600 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 15.14s] fault     probe RUNNING hb_age=   14ms lines_written=  6000 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 16.14s] fault     probe RUNNING hb_age=   15ms lines_written=  6400 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 17.14s] fault     probe RUNNING hb_age=   13ms lines_written=  6800 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 18.14s] fault     probe RUNNING hb_age=   11ms lines_written=  7200 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 19.14s] fault     probe RUNNING hb_age=    7ms lines_written=  7600 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 20.14s] fault     probe RUNNING hb_age=    6ms lines_written=  8000 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 21.14s] fault     probe RUNNING hb_age=    4ms lines_written=  8400 | client consumed=  151156 bytes, last_line=  1199, line_gaps=17 | probe state=S wchan=ep_poll
+[ 21.14s] --- job manager log (fault phase) ---
+    2026/09/26 01:18:22 job manager daemonized, logging to /tmp/wds/final/runs/before-tmux-blackhole/home/.waveterm/jobs/3ae9eed1-b179-4c11-8aac-c6ba1a860856.log
+    2026/09/26 01:18:22 job owner clientid: cb3ad5a1-bf2b-409d-bcf0-99681af3bbf8
+    2026/09/26 01:18:22 AuthenticateToJobManager: authentication successful for JobId=3ae9eed1-b179-4c11-8aac-c6ba1a860856
+    2026/09/26 01:18:22 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:18:22 StartJobCommand: received command=/usr/bin/tmux args=[-S /tmp/wds/final/runs/before-tmux-blackhole/tmux.sock -f /dev/null new-session -A -s probe /usr/bin/node /tmp/wds/final/runs/before-tmux-blackhole/probe.js /tmp/wds/final/runs/before-tmux-blackhole/probe.hb 40 100 100]
+    2026/09/26 01:18:22 StartJob: creating job cmd for jobid=3ae9eed1-b179-4c11-8aac-c6ba1a860856
+    2026/09/26 01:18:22 StartJob: job cmd created successfully
+    2026/09/26 01:18:22 StartJob: connected stream streamid=2755a24d-0339-4054-9123-2e5b17e1145a serverSeq=0
+    2026/09/26 01:18:22 StartJob: attaching pty reader to stream manager
+    2026/09/26 01:18:22 StartJob: pty reader attached successfully
+    2026/09/26 01:18:22 StartJob: job started successfully cmdPid=477535 cmdStartTs=1790385501800 jobManagerPid=477525 jobManagerStartTs=1790385501790
+[ 21.14s] === REATTACH (new connection, PrepareConnect seq=151156) ===
+[ 22.15s] reattach  probe RUNNING hb_age=    2ms lines_written=  8800 | client consumed=  298199 bytes, last_line=  8759, line_gaps=6422 | probe state=S wchan=ep_poll
+[ 23.15s] reattach  probe RUNNING hb_age=   99ms lines_written=  9160 | client consumed=  348609 bytes, last_line=  9159, line_gaps=6424 | probe state=S wchan=ep_poll
+[ 24.15s] reattach  probe RUNNING hb_age=   93ms lines_written=  9560 | client consumed=  399015 bytes, last_line=  9559, line_gaps=6424 | probe state=S wchan=ep_poll
+[ 25.15s] reattach  probe RUNNING hb_age=   91ms lines_written=  9960 | client consumed=  449486 bytes, last_line=  9959, line_gaps=6426 | probe state=S wchan=ep_poll
+[ 25.15s] --- job manager log (reattach) ---
+    2026/09/26 01:18:22 StartJob: job started successfully cmdPid=477535 cmdStartTs=1790385501800 jobManagerPid=477525 jobManagerStartTs=1790385501790
+    2026/09/26 01:18:43 AuthenticateToJobManager: authentication successful for JobId=3ae9eed1-b179-4c11-8aac-c6ba1a860856
+    2026/09/26 01:18:43 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:18:43 SetAttachedClient: kicking out existing client
+    2026/09/26 01:18:43 connectToStreamHelper: disconnecting existing client
+    2026/09/26 01:18:43 connectToStreamHelper: detached old stream id=2755a24d-0339-4054-9123-2e5b17e1145a
+    2026/09/26 01:18:43 PrepareConnect: streamid=29d87817-9612-4148-924e-3bc0c43fb768 clientSeq=151156 serverSeq=151156 streamDone=false streamError="" hasExited=false
+    2026/09/26 01:18:43 StartStream: streamid=29d87817-9612-4148-924e-3bc0c43fb768 rwnd=65536 streaming started

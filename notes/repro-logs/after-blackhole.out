@@ -1,0 +1,51 @@
+[  0.01s] job manager pid=477587 jobid=24ce02df-ab28-41b5-b188-ce06efbbef82 log=/tmp/wds/final/runs/after-blackhole/home/.waveterm/jobs/24ce02df-ab28-41b5-b188-ce06efbbef82.log
+[  0.02s] probe started pid=477597 (node, writes ~48000 bytes/s to its tty in 120-byte lines)
+[  1.02s] normal    probe RUNNING hb_age=   71ms lines_written=   360 | client consumed=   43090 bytes, last_line=   359, line_gaps=0 | probe state=S wchan=ep_poll
+[  2.02s] normal    probe RUNNING hb_age=   65ms lines_written=   760 | client consumed=   91090 bytes, last_line=   759, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.02s] normal    probe RUNNING hb_age=   62ms lines_written=  1160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.02s] === FAULT: blackhole ===
+[  4.02s] fault     probe RUNNING hb_age=   55ms lines_written=  1560 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  5.02s] fault     probe RUNNING hb_age=  352ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  6.02s] fault     probe FROZEN  hb_age= 1352ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  7.02s] fault     probe FROZEN  hb_age= 2352ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  8.02s] fault     probe FROZEN  hb_age= 3353ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  9.02s] fault     probe FROZEN  hb_age= 4353ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 10.02s] fault     probe FROZEN  hb_age= 5354ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 11.02s] fault     probe FROZEN  hb_age= 6354ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 12.03s] fault     probe FROZEN  hb_age= 7355ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 13.03s] fault     probe FROZEN  hb_age= 8355ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 14.03s] fault     probe RUNNING hb_age=   55ms lines_written=  2160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 15.03s] fault     probe RUNNING hb_age=   51ms lines_written=  2560 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 16.03s] fault     probe RUNNING hb_age=   47ms lines_written=  2960 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 17.03s] fault     probe RUNNING hb_age=   46ms lines_written=  3360 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 18.03s] fault     probe RUNNING hb_age=   42ms lines_written=  3760 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 19.03s] fault     probe RUNNING hb_age=   40ms lines_written=  4160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 20.03s] fault     probe RUNNING hb_age=   36ms lines_written=  4560 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 21.03s] fault     probe RUNNING hb_age=   33ms lines_written=  4960 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 21.03s] --- job manager log (fault phase) ---
+    2026/09/26 01:18:47 AuthenticateToJobManager: authentication successful for JobId=24ce02df-ab28-41b5-b188-ce06efbbef82
+    2026/09/26 01:18:47 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:18:47 StartJobCommand: received command=/usr/bin/node args=[/tmp/wds/final/runs/after-blackhole/probe.js /tmp/wds/final/runs/after-blackhole/probe.hb 40 100 100]
+    2026/09/26 01:18:47 StartJob: creating job cmd for jobid=24ce02df-ab28-41b5-b188-ce06efbbef82
+    2026/09/26 01:18:47 StartJob: job cmd created successfully
+    2026/09/26 01:18:47 StartJob: connected stream streamid=bbe4f0ff-0045-48a5-835a-bef4057f53a7 serverSeq=0
+    2026/09/26 01:18:47 StartJob: attaching pty reader to stream manager
+    2026/09/26 01:18:47 StartJob: pty reader attached successfully
+    2026/09/26 01:18:47 StartJob: job started successfully cmdPid=477597 cmdStartTs=1790385526980 jobManagerPid=477587 jobManagerStartTs=1790385526960
+    2026/09/26 01:19:00 streammanager: detaching client stream=bbe4f0ff-0045-48a5-835a-bef4057f53a7: no ACK progress for 10.409s while output is blocked (unacked=65536 rwnd=65536) (pty keeps draining into 2097152 byte buffer)
+    2026/09/26 01:19:00 handleClientBroken: closing client connection: no ACK progress for 10.409s while output is blocked (unacked=65536 rwnd=65536)
+    2026/09/26 01:19:00 disconnectFromStreamHelper: client connection closed, stream detached
+[ 21.03s] === REATTACH (new connection, PrepareConnect seq=139250) ===
+[ 22.04s] reattach  probe RUNNING hb_age=   30ms lines_written=  5360 | client consumed=  647450 bytes, last_line=  5359, line_gaps=0 | probe state=S wchan=ep_poll
+[ 23.04s] reattach  probe RUNNING hb_age=   29ms lines_written=  5760 | client consumed=  695850 bytes, last_line=  5759, line_gaps=0 | probe state=S wchan=ep_poll
+[ 24.04s] reattach  probe RUNNING hb_age=   26ms lines_written=  6160 | client consumed=  744250 bytes, last_line=  6159, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.04s] reattach  probe RUNNING hb_age=   23ms lines_written=  6560 | client consumed=  792650 bytes, last_line=  6559, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.04s] --- job manager log (reattach) ---
+    2026/09/26 01:18:47 StartJob: job started successfully cmdPid=477597 cmdStartTs=1790385526980 jobManagerPid=477587 jobManagerStartTs=1790385526960
+    2026/09/26 01:19:00 streammanager: detaching client stream=bbe4f0ff-0045-48a5-835a-bef4057f53a7: no ACK progress for 10.409s while output is blocked (unacked=65536 rwnd=65536) (pty keeps draining into 2097152 byte buffer)
+    2026/09/26 01:19:00 handleClientBroken: closing client connection: no ACK progress for 10.409s while output is blocked (unacked=65536 rwnd=65536)
+    2026/09/26 01:19:00 disconnectFromStreamHelper: client connection closed, stream detached
+    2026/09/26 01:19:08 AuthenticateToJobManager: authentication successful for JobId=24ce02df-ab28-41b5-b188-ce06efbbef82
+    2026/09/26 01:19:08 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:19:08 PrepareConnect: streamid=e5c2bcbf-bf77-4a97-a8b4-a159b90cd452 clientSeq=139250 serverSeq=139250 streamDone=false streamError="" hasExited=false
+    2026/09/26 01:19:08 StartStream: streamid=e5c2bcbf-bf77-4a97-a8b4-a159b90cd452 rwnd=65536 streaming started
