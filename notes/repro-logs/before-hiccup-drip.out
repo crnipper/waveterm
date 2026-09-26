@@ -1,0 +1,52 @@
+[  0.01s] job manager pid=477416 jobid=818c7f7d-6112-410c-84cc-d5d5dbf5cf71 log=/tmp/wds/final/runs/before-hiccup-drip/home/.waveterm/jobs/818c7f7d-6112-410c-84cc-d5d5dbf5cf71.log
+[  0.01s] probe started pid=477428 (node, writes ~40000 bytes/s to its tty in 40-byte lines)
+[  1.01s] normal    probe RUNNING hb_age=    0ms lines_written=   880 | client consumed=   35050 bytes, last_line=   878, line_gaps=0 | probe state=S wchan=ep_poll
+[  2.01s] normal    probe RUNNING hb_age=    0ms lines_written=  1797 | client consumed=   72526 bytes, last_line=  1795, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.01s] normal    probe RUNNING hb_age=    2ms lines_written=  2716 | client consumed=  110246 bytes, last_line=  2715, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.01s] === FAULT: hiccup ===
+[  4.01s] fault     probe RUNNING hb_age=    1ms lines_written=  3639 | client consumed=  110287 bytes, last_line=  2716, line_gaps=0 | probe state=R wchan=0
+[  5.01s] fault     probe RUNNING hb_age=    1ms lines_written=  4551 | client consumed=  110287 bytes, last_line=  2716, line_gaps=0 | probe state=S wchan=ep_poll
+[  6.01s] fault     probe RUNNING hb_age=  746ms lines_written=  4784 | client consumed=  110287 bytes, last_line=  2716, line_gaps=0 | probe state=S wchan=wait_woken
+[  7.01s] fault     probe FROZEN  hb_age= 1746ms lines_written=  4784 | client consumed=  110287 bytes, last_line=  2716, line_gaps=0 | probe state=S wchan=wait_woken
+[  8.01s] fault     probe FROZEN  hb_age= 2747ms lines_written=  4784 | client consumed=  110287 bytes, last_line=  2716, line_gaps=0 | probe state=S wchan=wait_woken
+[  9.01s] fault     probe FROZEN  hb_age= 3747ms lines_written=  4784 | client consumed=  110287 bytes, last_line=  2716, line_gaps=0 | probe state=S wchan=wait_woken
+[ 10.01s] === hiccup over: client reads the socket again ===
+[ 10.01s] fault     probe FROZEN  hb_age= 4748ms lines_written=  4784 | client consumed=  110287 bytes, last_line=  2716, line_gaps=0 | probe state=S wchan=wait_woken
+[ 11.01s] fault     probe RUNNING hb_age=  787ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 12.02s] fault     probe FROZEN  hb_age= 1788ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 13.02s] fault     probe FROZEN  hb_age= 2788ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 14.02s] fault     probe FROZEN  hb_age= 3789ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 15.02s] fault     probe FROZEN  hb_age= 4789ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 16.02s] fault     probe FROZEN  hb_age= 5790ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 17.02s] fault     probe FROZEN  hb_age= 6790ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 18.02s] fault     probe FROZEN  hb_age= 7790ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 19.02s] fault     probe FROZEN  hb_age= 8791ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 20.02s] fault     probe FROZEN  hb_age= 9791ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 21.02s] fault     probe FROZEN  hb_age=10791ms lines_written=  4976 | client consumed=  116560 bytes, last_line=  2869, line_gaps=0 | probe state=S wchan=wait_woken
+[ 21.02s] --- job manager log (fault phase) ---
+    2026/09/26 01:17:32 job manager daemonized, logging to /tmp/wds/final/runs/before-hiccup-drip/home/.waveterm/jobs/818c7f7d-6112-410c-84cc-d5d5dbf5cf71.log
+    2026/09/26 01:17:32 job owner clientid: fb552ce0-3173-4a5b-a21c-8f51193524df
+    2026/09/26 01:17:32 AuthenticateToJobManager: authentication successful for JobId=818c7f7d-6112-410c-84cc-d5d5dbf5cf71
+    2026/09/26 01:17:32 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:17:32 StartJobCommand: received command=/usr/bin/node args=[/tmp/wds/final/runs/before-hiccup-drip/probe.js /tmp/wds/final/runs/before-hiccup-drip/probe.hb 1 1 20]
+    2026/09/26 01:17:32 StartJob: creating job cmd for jobid=818c7f7d-6112-410c-84cc-d5d5dbf5cf71
+    2026/09/26 01:17:32 StartJob: job cmd created successfully
+    2026/09/26 01:17:32 StartJob: connected stream streamid=57fda139-8ac7-4d5c-88b6-38e3e9a9aac6 serverSeq=0
+    2026/09/26 01:17:32 StartJob: attaching pty reader to stream manager
+    2026/09/26 01:17:32 StartJob: pty reader attached successfully
+    2026/09/26 01:17:32 StartJob: job started successfully cmdPid=477428 cmdStartTs=1790385451690 jobManagerPid=477416 jobManagerStartTs=1790385451680
+    2026/09/26 01:17:40 SendData: error sending stream data: timeout sending request
+[ 21.02s] === REATTACH (new connection, PrepareConnect seq=116560) ===
+[ 22.02s] reattach  probe RUNNING hb_age=    1ms lines_written=  5893 | client consumed=  240503 bytes, last_line=  5892, line_gaps=0 | probe state=S wchan=ep_poll
+[ 23.02s] reattach  probe RUNNING hb_age=    0ms lines_written=  6800 | client consumed=  277649 bytes, last_line=  6798, line_gaps=0 | probe state=S wchan=ep_poll
+[ 24.02s] reattach  probe RUNNING hb_age=    2ms lines_written=  7722 | client consumed=  315492 bytes, last_line=  7721, line_gaps=0 | probe state=S wchan=0
+[ 25.02s] reattach  probe RUNNING hb_age=    0ms lines_written=  8646 | client consumed=  353335 bytes, last_line=  8644, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.02s] --- job manager log (reattach) ---
+    2026/09/26 01:17:40 SendData: error sending stream data: timeout sending request
+    2026/09/26 01:17:53 AuthenticateToJobManager: authentication successful for JobId=818c7f7d-6112-410c-84cc-d5d5dbf5cf71
+    2026/09/26 01:17:53 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:17:53 SetAttachedClient: kicking out existing client
+    2026/09/26 01:17:53 connectToStreamHelper: disconnecting existing client
+    2026/09/26 01:17:53 connectToStreamHelper: detached old stream id=57fda139-8ac7-4d5c-88b6-38e3e9a9aac6
+    2026/09/26 01:17:53 PrepareConnect: streamid=573a2601-d607-40ec-b411-d88084bafbef clientSeq=116560 serverSeq=116560 streamDone=false streamError="" hasExited=false
+    2026/09/26 01:17:53 StartStream: streamid=573a2601-d607-40ec-b411-d88084bafbef rwnd=65536 streaming started

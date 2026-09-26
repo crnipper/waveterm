@@ -1,0 +1,37 @@
+[  0.01s] job manager pid=466243 jobid=dd3d76fc-e5a4-43bf-a3cd-ebbe64bbdd74 log=/tmp/wds/runs/before-tmux-hiccup/home/.waveterm/jobs/dd3d76fc-e5a4-43bf-a3cd-ebbe64bbdd74.log
+[  0.13s] job pid=466255 is the tmux client; probe (tmux pane) pid=466260
+[  0.13s] probe started pid=466260 (node, writes ~40000 bytes/s to its tty in 40-byte lines)
+[  1.13s] normal    probe RUNNING hb_age=   -1ms lines_written=    -1 | client consumed=   68888 bytes, last_line=   954, line_gaps=3 | probe state=D wchan=folio_wait_bit_common
+[  2.13s] normal    probe RUNNING hb_age=    0ms lines_written=  1858 | client consumed=  135348 bytes, last_line=  1856, line_gaps=5 | probe state=S wchan=ep_poll
+[  3.13s] normal    probe RUNNING hb_age=    0ms lines_written=  2761 | client consumed=  202066 bytes, last_line=  2759, line_gaps=5 | probe state=S wchan=ep_poll
+[  3.13s] === FAULT: hiccup ===
+[  4.14s] fault     probe RUNNING hb_age=    1ms lines_written=  3690 | client consumed=  202266 bytes, last_line=  2762, line_gaps=5 | probe state=S wchan=ep_poll
+[  5.14s] fault     probe RUNNING hb_age=    1ms lines_written=  4607 | client consumed=  202266 bytes, last_line=  2762, line_gaps=5 | probe state=S wchan=ep_poll
+[  6.14s] fault     probe RUNNING hb_age=    1ms lines_written=  5521 | client consumed=  202266 bytes, last_line=  2762, line_gaps=5 | probe state=S wchan=0
+[  7.14s] fault     probe RUNNING hb_age=    1ms lines_written=  6431 | client consumed=  202266 bytes, last_line=  2762, line_gaps=5 | probe state=S wchan=ep_poll
+[  8.14s] fault     probe RUNNING hb_age=    0ms lines_written=  7350 | client consumed=  202266 bytes, last_line=  2762, line_gaps=5 | probe state=S wchan=ep_poll
+[  9.14s] fault     probe RUNNING hb_age=    0ms lines_written=  8269 | client consumed=  202266 bytes, last_line=  2762, line_gaps=5 | probe state=S wchan=ep_poll
+[ 10.14s] === hiccup over: client reads the socket again ===
+[ 10.14s] fault     probe RUNNING hb_age=    1ms lines_written=  9187 | client consumed=  202266 bytes, last_line=  2762, line_gaps=5 | probe state=S wchan=ep_poll
+[ 11.14s] fault     probe RUNNING hb_age=    1ms lines_written= 10105 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=S wchan=ep_poll
+[ 12.14s] fault     probe RUNNING hb_age=    0ms lines_written= 11016 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=S wchan=ep_poll
+[ 13.14s] fault     probe RUNNING hb_age=    1ms lines_written= 11926 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=R wchan=0
+[ 14.14s] fault     probe RUNNING hb_age=    2ms lines_written= 12840 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=S wchan=ep_poll
+[ 15.14s] fault     probe RUNNING hb_age=    0ms lines_written= 13752 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=S wchan=ep_poll
+[ 16.14s] fault     probe RUNNING hb_age=    0ms lines_written= 14666 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=S wchan=ep_poll
+[ 17.14s] fault     probe RUNNING hb_age=    0ms lines_written= 15584 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=S wchan=ep_poll
+[ 18.14s] fault     probe RUNNING hb_age=    1ms lines_written= 16500 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=S wchan=ep_poll
+[ 19.14s] fault     probe RUNNING hb_age=   -1ms lines_written=    -1 | client consumed=  213249 bytes, last_line=  2911, line_gaps=5 | probe state=D wchan=folio_wait_bit_common
+[ 19.14s] --- job manager log (fault phase) ---
+    2026/09/26 00:58:29 SendData: error sending stream data: timeout sending request
+[ 19.14s] === REATTACH (new connection, PrepareConnect seq=213249) ===
+[ 20.14s] reattach  probe RUNNING hb_age=    0ms lines_written= 18340 | client consumed=  402588 bytes, last_line= 18339, line_gaps=12875 | probe state=S wchan=ep_poll
+[ 21.14s] reattach  probe RUNNING hb_age=    0ms lines_written= 19257 | client consumed=  471230 bytes, last_line= 19256, line_gaps=12876 | probe state=S wchan=ep_poll
+[ 22.14s] reattach  probe RUNNING hb_age=    1ms lines_written= 20173 | client consumed=  540064 bytes, last_line= 20171, line_gaps=12876 | probe state=S wchan=ep_poll
+[ 22.14s] --- job manager log (reattach) ---
+    2026/09/26 00:58:29 SendData: error sending stream data: timeout sending request
+    2026/09/26 00:58:40 SetAttachedClient: kicking out existing client
+    2026/09/26 00:58:40 connectToStreamHelper: disconnecting existing client
+    2026/09/26 00:58:40 connectToStreamHelper: detached old stream id=9dba62c3-9159-4984-9e07-72ac0b596ba2
+    2026/09/26 00:58:40 PrepareConnect: streamid=2822cdbd-5652-41e0-8cea-9b31d958107e clientSeq=213249 serverSeq=213249 streamDone=false streamError="" hasExited=false
+    2026/09/26 00:58:40 StartStream: streamid=2822cdbd-5652-41e0-8cea-9b31d958107e rwnd=65536 streaming started

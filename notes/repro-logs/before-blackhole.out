@@ -1,0 +1,50 @@
+[  0.01s] job manager pid=477299 jobid=8f3b6f1f-d8c0-4524-9e99-865bd4f1e6cb log=/tmp/wds/final/runs/before-blackhole/home/.waveterm/jobs/8f3b6f1f-d8c0-4524-9e99-865bd4f1e6cb.log
+[  0.02s] probe started pid=477307 (node, writes ~48000 bytes/s to its tty in 120-byte lines)
+[  1.02s] normal    probe RUNNING hb_age=   55ms lines_written=   360 | client consumed=   43090 bytes, last_line=   359, line_gaps=0 | probe state=S wchan=ep_poll
+[  2.02s] normal    probe RUNNING hb_age=   49ms lines_written=   760 | client consumed=   91090 bytes, last_line=   759, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.02s] normal    probe RUNNING hb_age=   44ms lines_written=  1160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.02s] === FAULT: blackhole ===
+[  4.02s] fault     probe RUNNING hb_age=   41ms lines_written=  1560 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  5.02s] fault     probe RUNNING hb_age=  338ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  6.02s] fault     probe FROZEN  hb_age= 1338ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  7.02s] fault     probe FROZEN  hb_age= 2338ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  8.02s] fault     probe FROZEN  hb_age= 3339ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  9.02s] fault     probe FROZEN  hb_age= 4339ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 10.02s] fault     probe FROZEN  hb_age= 5340ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 11.02s] fault     probe FROZEN  hb_age= 6340ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 12.02s] fault     probe FROZEN  hb_age= 7340ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 13.02s] fault     probe FROZEN  hb_age= 8341ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 14.02s] fault     probe FROZEN  hb_age= 9341ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 15.02s] fault     probe FROZEN  hb_age=10342ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 16.03s] fault     probe FROZEN  hb_age=11342ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 17.03s] fault     probe FROZEN  hb_age=12343ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 18.03s] fault     probe FROZEN  hb_age=13343ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 19.03s] fault     probe FROZEN  hb_age=14344ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 20.03s] fault     probe FROZEN  hb_age=15344ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 21.03s] fault     probe FROZEN  hb_age=16345ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 21.03s] --- job manager log (fault phase) ---
+    2026/09/26 01:16:42 job manager daemonized, logging to /tmp/wds/final/runs/before-blackhole/home/.waveterm/jobs/8f3b6f1f-d8c0-4524-9e99-865bd4f1e6cb.log
+    2026/09/26 01:16:42 job owner clientid: aaac8f5d-3d9f-412c-936b-f6153c22730b
+    2026/09/26 01:16:42 AuthenticateToJobManager: authentication successful for JobId=8f3b6f1f-d8c0-4524-9e99-865bd4f1e6cb
+    2026/09/26 01:16:42 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:16:42 StartJobCommand: received command=/usr/bin/node args=[/tmp/wds/final/runs/before-blackhole/probe.js /tmp/wds/final/runs/before-blackhole/probe.hb 40 100 100]
+    2026/09/26 01:16:42 StartJob: creating job cmd for jobid=8f3b6f1f-d8c0-4524-9e99-865bd4f1e6cb
+    2026/09/26 01:16:42 StartJob: job cmd created successfully
+    2026/09/26 01:16:42 StartJob: connected stream streamid=15920d42-6f02-4dcd-bea5-e837ff4d069d serverSeq=0
+    2026/09/26 01:16:42 StartJob: attaching pty reader to stream manager
+    2026/09/26 01:16:42 StartJob: pty reader attached successfully
+    2026/09/26 01:16:42 StartJob: job started successfully cmdPid=477307 cmdStartTs=1790385401560 jobManagerPid=477299 jobManagerStartTs=1790385401550
+[ 21.03s] === REATTACH (new connection, PrepareConnect seq=139250) ===
+[ 22.03s] reattach  probe RUNNING hb_age=   91ms lines_written=  2280 | client consumed=  274770 bytes, last_line=  2279, line_gaps=0 | probe state=S wchan=ep_poll
+[ 23.03s] reattach  probe RUNNING hb_age=   88ms lines_written=  2680 | client consumed=  323170 bytes, last_line=  2679, line_gaps=0 | probe state=S wchan=ep_poll
+[ 24.03s] reattach  probe RUNNING hb_age=   85ms lines_written=  3080 | client consumed=  371570 bytes, last_line=  3079, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.03s] reattach  probe RUNNING hb_age=   82ms lines_written=  3480 | client consumed=  419970 bytes, last_line=  3479, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.03s] --- job manager log (reattach) ---
+    2026/09/26 01:16:42 StartJob: job started successfully cmdPid=477307 cmdStartTs=1790385401560 jobManagerPid=477299 jobManagerStartTs=1790385401550
+    2026/09/26 01:17:03 AuthenticateToJobManager: authentication successful for JobId=8f3b6f1f-d8c0-4524-9e99-865bd4f1e6cb
+    2026/09/26 01:17:03 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:17:03 SetAttachedClient: kicking out existing client
+    2026/09/26 01:17:03 connectToStreamHelper: disconnecting existing client
+    2026/09/26 01:17:03 connectToStreamHelper: detached old stream id=15920d42-6f02-4dcd-bea5-e837ff4d069d
+    2026/09/26 01:17:03 PrepareConnect: streamid=59a148a5-6bf2-4924-9ee3-bf5a313fbfd3 clientSeq=139250 serverSeq=139250 streamDone=false streamError="" hasExited=false
+    2026/09/26 01:17:03 StartStream: streamid=59a148a5-6bf2-4924-9ee3-bf5a313fbfd3 rwnd=65536 streaming started

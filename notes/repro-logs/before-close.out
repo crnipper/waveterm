@@ -1,0 +1,51 @@
+[  0.01s] job manager pid=477473 jobid=5651df03-fa61-40a7-802e-bf1ead5156ec log=/tmp/wds/final/runs/before-close/home/.waveterm/jobs/5651df03-fa61-40a7-802e-bf1ead5156ec.log
+[  0.01s] probe started pid=477482 (node, writes ~48000 bytes/s to its tty in 120-byte lines)
+[  1.01s] normal    probe RUNNING hb_age=   64ms lines_written=   360 | client consumed=   43090 bytes, last_line=   359, line_gaps=0 | probe state=S wchan=ep_poll
+[  2.01s] normal    probe RUNNING hb_age=   61ms lines_written=   760 | client consumed=   91090 bytes, last_line=   759, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.01s] normal    probe RUNNING hb_age=   59ms lines_written=  1160 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  3.01s] === FAULT: close ===
+[  4.01s] fault     probe RUNNING hb_age=   57ms lines_written=  1560 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=ep_poll
+[  5.01s] fault     probe RUNNING hb_age=  354ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  6.01s] fault     probe FROZEN  hb_age= 1354ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  7.01s] fault     probe FROZEN  hb_age= 2355ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  8.02s] fault     probe FROZEN  hb_age= 3355ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[  9.02s] fault     probe FROZEN  hb_age= 4356ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 10.02s] fault     probe FROZEN  hb_age= 5356ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 11.02s] fault     probe FROZEN  hb_age= 6356ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 12.02s] fault     probe FROZEN  hb_age= 7357ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 13.02s] fault     probe FROZEN  hb_age= 8357ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 14.02s] fault     probe FROZEN  hb_age= 9358ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 15.02s] fault     probe FROZEN  hb_age=10358ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 16.02s] fault     probe FROZEN  hb_age=11359ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 17.02s] fault     probe FROZEN  hb_age=12359ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 18.02s] fault     probe FROZEN  hb_age=13360ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 19.02s] fault     probe FROZEN  hb_age=14360ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 20.02s] fault     probe FROZEN  hb_age=15361ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 21.02s] fault     probe FROZEN  hb_age=16361ms lines_written=  1840 | client consumed=  139250 bytes, last_line=  1159, line_gaps=0 | probe state=S wchan=wait_woken
+[ 21.02s] --- job manager log (fault phase) ---
+    2026/09/26 01:17:57 job manager daemonized, logging to /tmp/wds/final/runs/before-close/home/.waveterm/jobs/5651df03-fa61-40a7-802e-bf1ead5156ec.log
+    2026/09/26 01:17:57 job owner clientid: e1efd51b-e158-451f-b4f3-d5fcaf91f57f
+    2026/09/26 01:17:57 AuthenticateToJobManager: authentication successful for JobId=5651df03-fa61-40a7-802e-bf1ead5156ec
+    2026/09/26 01:17:57 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:17:57 StartJobCommand: received command=/usr/bin/node args=[/tmp/wds/final/runs/before-close/probe.js /tmp/wds/final/runs/before-close/probe.hb 40 100 100]
+    2026/09/26 01:17:57 StartJob: creating job cmd for jobid=5651df03-fa61-40a7-802e-bf1ead5156ec
+    2026/09/26 01:17:57 StartJob: job cmd created successfully
+    2026/09/26 01:17:57 StartJob: connected stream streamid=4875c660-60b2-425f-af87-cf2bfb57347d serverSeq=0
+    2026/09/26 01:17:57 StartJob: attaching pty reader to stream manager
+    2026/09/26 01:17:57 StartJob: pty reader attached successfully
+    2026/09/26 01:17:57 StartJob: job started successfully cmdPid=477482 cmdStartTs=1790385476740 jobManagerPid=477473 jobManagerStartTs=1790385476730
+    2026/09/26 01:18:00 SendData: error sending stream data: server is no longer running, cannot send new requests   (x27)
+[ 21.02s] === REATTACH (new connection, PrepareConnect seq=139250) ===
+[ 22.03s] reattach  probe RUNNING hb_age=   89ms lines_written=  2280 | client consumed=  274770 bytes, last_line=  2279, line_gaps=0 | probe state=S wchan=ep_poll
+[ 23.03s] reattach  probe RUNNING hb_age=   86ms lines_written=  2680 | client consumed=  323170 bytes, last_line=  2679, line_gaps=0 | probe state=S wchan=ep_poll
+[ 24.03s] reattach  probe RUNNING hb_age=   83ms lines_written=  3080 | client consumed=  371570 bytes, last_line=  3079, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.03s] reattach  probe RUNNING hb_age=   78ms lines_written=  3480 | client consumed=  419970 bytes, last_line=  3479, line_gaps=0 | probe state=S wchan=ep_poll
+[ 25.03s] --- job manager log (reattach) ---
+    2026/09/26 01:18:00 SendData: error sending stream data: server is no longer running, cannot send new requests   (x27)
+    2026/09/26 01:18:18 AuthenticateToJobManager: authentication successful for JobId=5651df03-fa61-40a7-802e-bf1ead5156ec
+    2026/09/26 01:18:18 authenticateSelfToServer: successfully authenticated to server
+    2026/09/26 01:18:18 SetAttachedClient: kicking out existing client
+    2026/09/26 01:18:18 connectToStreamHelper: disconnecting existing client
+    2026/09/26 01:18:18 connectToStreamHelper: detached old stream id=4875c660-60b2-425f-af87-cf2bfb57347d
+    2026/09/26 01:18:18 PrepareConnect: streamid=3f938d7c-3a0b-4535-ab43-ed1f7b6fbbcd clientSeq=139250 serverSeq=139250 streamDone=false streamError="" hasExited=false
+    2026/09/26 01:18:18 StartStream: streamid=3f938d7c-3a0b-4535-ab43-ed1f7b6fbbcd rwnd=65536 streaming started
