@@ -80,6 +80,7 @@ var (
 	flagTickMs   = flag.Int("tickms", 100, "probe tick interval (ms)")
 	flagPad      = flag.Int("pad", 100, "probe line padding (bytes)")
 	flagNoReatt  = flag.Bool("noreattach", false, "skip the reattach phase")
+	flagSlowRead = flag.Int("slowreadus", 0, "client processes each incoming message this many microseconds slower (a busy connserver); no fault needed to trigger the spurious send timeout")
 	flagTmux     = flag.Bool("tmux", false, "run the probe inside tmux (private -S socket in -dir); the job's pty hosts the tmux client")
 )
 
@@ -152,6 +153,9 @@ func dialJob(sockPath string) (*clientConn, error) {
 			line := scanner.Bytes()
 			if cc.blackhole.Load() && bytes.Contains(line, []byte(`"command":"streamdata"`)) {
 				continue
+			}
+			if *flagSlowRead > 0 {
+				time.Sleep(time.Duration(*flagSlowRead) * time.Microsecond)
 			}
 			msg := make([]byte, len(line))
 			copy(msg, line)
