@@ -1,0 +1,34 @@
+{
+  "remote-yazi": {
+    "label": "Remote Files",
+    "inheritcwd": true,
+    "blockdef": {
+      "meta": {
+        "view": "term",
+        "controller": "shell",
+        "connection": "user@host",
+        "term:durable": true,
+        "cmd:env": {
+          "WAVE_TMUX": "1",
+          "WAVE_BROWSER_STARTUP": "yazi"
+        }
+      }
+    }
+  },
+  "remote-lazygit": {
+    "label": "Remote Git",
+    "inheritcwd": true,
+    "blockdef": {
+      "meta": {
+        "view": "term",
+        "controller": "shell",
+        "connection": "user@host",
+        "term:durable": true,
+        "cmd:env": {
+          "WAVE_TMUX": "1",
+          "WAVE_BROWSER_STARTUP": "lazygit"
+        }
+      }
+    }
+  }
+}

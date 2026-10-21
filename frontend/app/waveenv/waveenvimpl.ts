@@ -7,6 +7,7 @@ import {
     createBlock,
     getBlockMetaKeyAtom,
     getConfigBackgroundAtom,
+    getFocusedBlock,
     getConnConfigKeyAtom,
     getConnStatusAtom,
     getLocalHostDisplayNameAtom,
@@ -32,6 +33,7 @@ export function makeWaveEnvImpl(): WaveEnv {
         isMacOS,
         atoms,
         createBlock,
+        getFocusedBlock,
         services: AllServiceImpls,
         callBackendService: WOS.callBackendService,
         showContextMenu: (menu: ContextMenuItem[], e: React.MouseEvent) => {

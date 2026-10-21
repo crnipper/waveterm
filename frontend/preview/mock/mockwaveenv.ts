@@ -492,6 +492,7 @@ export function makeMockWaveEnv(mockEnv?: MockEnv): MockWaveEnv {
         isDev: () => mergedOverrides.isDev ?? true,
         isWindows: () => platform === PlatformWindows,
         isMacOS: () => platform === PlatformMacOS,
+        getFocusedBlock: () => null,
         createBlock:
             mergedOverrides.createBlock ??
             ((blockDef: BlockDef, magnified?: boolean, ephemeral?: boolean) => {

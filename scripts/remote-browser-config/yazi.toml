@@ -1,0 +1,18 @@
+[mgr]
+ratio = [ 1, 2, 5 ]
+show_hidden = true
+sort_dir_first = true
+
+[preview]
+wrap = "yes"
+
+[opener]
+wave = [
+  { run = "wsh edit %s", desc = "Edit in Wave", for = "unix" },
+  { run = "wsh view %s", desc = "Preview in Wave", for = "unix" },
+]
+
+[open]
+prepend_rules = [
+  { url = "*", use = [ "wave", "edit" ] },
+]

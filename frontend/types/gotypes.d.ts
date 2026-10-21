@@ -2153,6 +2153,7 @@ declare global {
         label?: string;
         description?: string;
         workspaces?: string[];
+        inheritcwd?: boolean;
         magnified?: boolean;
         blockdef: BlockDef;
     };

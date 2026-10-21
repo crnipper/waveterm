@@ -1,0 +1,16 @@
+git:
+  autoFetch: false
+  diffRenderers:
+    - name: delta
+      type: stdinFilter
+      colorArg: always
+      command: delta --dark --paging=never
+    - name: delta-side-by-side
+      type: stdinFilter
+      colorArg: always
+      command: delta --dark --side-by-side --paging=never
+os:
+  edit: 'wsh editor {{filename}}'
+  editAtLine: 'wsh editor {{filename}}'
+  editAtLineAndWait: 'wsh editor {{filename}}'
+  open: 'wsh view {{filename}}'

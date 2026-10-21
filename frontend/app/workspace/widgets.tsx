@@ -4,6 +4,7 @@
 import { Tooltip } from "@/app/element/tooltip";
 import { TabRpcClient } from "@/app/store/wshrpcutil";
 import { useWaveEnv, WaveEnv, WaveEnvSubset } from "@/app/waveenv/waveenv";
+import { getWidgetBlockDef } from "./widgetlaunch";
 import { shouldIncludeWidgetForWorkspace } from "@/app/workspace/widgetfilter";
 import { modalsModel } from "@/store/modalmodel";
 import { fireAndForget, isBlank, makeIconClass } from "@/util/util";
@@ -35,6 +36,7 @@ export type WidgetsEnv = WaveEnvSubset<{
         hasCustomAIPresetsAtom: WaveEnv["atoms"]["hasCustomAIPresetsAtom"];
     };
     createBlock: WaveEnv["createBlock"];
+    getFocusedBlock: WaveEnv["getFocusedBlock"];
     showContextMenu: WaveEnv["showContextMenu"];
 }>;
 
@@ -56,7 +58,7 @@ type WidgetPropsType = {
 };
 
 async function handleWidgetSelect(widget: WidgetConfigType, env: WidgetsEnv) {
-    const blockDef = widget.blockdef;
+    const blockDef = getWidgetBlockDef(widget, widget.inheritcwd ? env.getFocusedBlock() : null);
     env.createBlock(blockDef, widget.magnified);
 }
 

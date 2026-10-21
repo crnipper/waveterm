@@ -66,6 +66,16 @@ This `WidgetConfigType` is shared between all types of widgets. That is to say, 
 
 The other options are part of the inner `MetaTSType` (outlined in blue in the image). This contains all of the details about how the widget actually works. The valid keys vary with each type of widget. They will be individually explored in more detail below.
 
+## Inherit the Selected Terminal Directory
+
+Set `"inheritcwd": true` on a widget to copy the selected terminal's cwd when
+launching on the same connection. Other widgets retain their configured defaults.
+The selected block is captured before focus moves to the new widget. The command
+also receives `WAVE_BROWSER_SOURCE_BLOCK` and `WAVE_BROWSER_SOURCE_CWD` so a remote
+launcher can resolve a live tmux/Yazi directory when Wave's cwd tracking is
+unavailable. Values are not passed across connections. `wsh launch` retains the
+configured defaults because it does not have a focused UI context.
+
 ## Terminal and CLI Widgets
 
 A terminal widget, or CLI widget, is a widget that simply opens a terminal and runs a CLI command. They tend to look something like the example below:

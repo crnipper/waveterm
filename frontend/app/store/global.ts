@@ -405,6 +405,12 @@ async function createBlockSplitVertically(
     return newBlockId;
 }
 
+function getFocusedBlock(): Block {
+    const blockId = getFocusedBlockId();
+    if (blockId == null) return null;
+    return globalStore.get(WOS.getWaveObjectAtom<Block>(WOS.makeORef("block", blockId)));
+}
+
 async function createBlock(blockDef: BlockDef, magnified = false, ephemeral = false): Promise<string> {
     const layoutModel = getLayoutModelForStaticTab();
     const rtOpts: RuntimeOpts = { termsize: { rows: 25, cols: 80 } };
@@ -690,6 +696,7 @@ export {
     getConnConfigKeyAtom,
     getConnStatusAtom,
     getFocusedBlockId,
+    getFocusedBlock,
     getHostName,
     getLocalHostDisplayNameAtom,
     getObjectId,
