@@ -209,6 +209,9 @@
           },
           "type": "array"
         },
+        "inheritcwd": {
+          "type": "boolean"
+        },
         "magnified": {
           "type": "boolean"
         },

@@ -1,0 +1,19 @@
+[[mgr.prepend_keymap]]
+on = [ "g", "i" ]
+run = "plugin lazygit"
+desc = "Git status and diffs (Lazygit)"
+
+[[mgr.prepend_keymap]]
+on = [ "g", "d" ]
+run = "plugin diff"
+desc = "Copy diff of selected and hovered files"
+
+[[mgr.prepend_keymap]]
+on = [ "g", "v" ]
+run = "shell 'wsh view %s1' --confirm"
+desc = "Preview remote file in Wave"
+
+[[mgr.prepend_keymap]]
+on = [ "g", "e" ]
+run = "shell 'wsh edit %s1' --confirm"
+desc = "Edit remote file in Wave"

@@ -61,6 +61,7 @@ export type WaveEnv = {
     isWindows: () => boolean;
     isMacOS: () => boolean;
     atoms: GlobalAtomsType;
+    getFocusedBlock: () => Block;
     createBlock: (blockDef: BlockDef, magnified?: boolean, ephemeral?: boolean) => Promise<string>;
     services: typeof AllServiceImpls;
     callBackendService: (service: string, method: string, args: any[], noUIContext?: boolean) => Promise<any>;

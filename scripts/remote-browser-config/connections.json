@@ -1,0 +1,9 @@
+{
+  "user@host": {
+    "conn:wshenabled": true,
+    "term:durable": true,
+    "cmd:env": {
+      "WAVE_TMUX": "1"
+    }
+  }
+}
