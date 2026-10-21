@@ -1,7 +1,9 @@
 # Selected-directory remote browser widgets
 
-The checkout is a local branch of upstream Wave (`durable-never-block`), not a
-configured GitHub fork. Prior durable-session fix commits remain intact.
+The work is preserved in `https://github.com/crnipper/waveterm` on
+`durable-remote-browser`, rebased onto upstream main. Original pre-rebase history
+is preserved on `archive/durable-browser-pre-rebase`. Prior durable-session
+fix commits remain intact.
 
 This change adds opt-in `inheritcwd` to widget definitions. Clicking a widget
 captures the selected terminal before the new block takes focus. Only matching
